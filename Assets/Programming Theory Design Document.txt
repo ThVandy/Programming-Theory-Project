@@ -1,1 +1,6 @@
 -Programming Theory Design Document-
+
+-Have a main class for enemy then children with attributes 
+-make methods for reused tasks
+-find assets
+-make multiple levels
