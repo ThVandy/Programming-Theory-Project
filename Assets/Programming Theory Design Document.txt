@@ -20,3 +20,21 @@ Level System - 1.1x exponetion growth between levels
 -level 10 small pine
 -level 15 triple cutting speed
 -level 20 large pine
+
+
+-player controller
+-camera controller
+-tree main class
+	-time to chop
+	-xp reward
+		-dead
+			-5 second chop
+			-10xp
+		-small
+			-15 second chop
+			-50xp
+		-tall
+			-30 second chop
+			-200xp
+-XP tracking script
+-UI script
