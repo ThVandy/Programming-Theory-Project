@@ -4,3 +4,19 @@
 -make methods for reused tasks
 -find assets
 -make multiple levels
+
+
+Player will move around the fenced area chopping trees to level up, then move onto the next tree
+
+main class of Tree
+-sub tree classes
+	-dead
+	-small pine
+	-tall pine
+
+Level System - 1.1x exponetion growth between levels
+-level one dead tree base cutting speed
+-level 5 double cutting speed
+-level 10 small pine
+-level 15 triple cutting speed
+-level 20 large pine
