@@ -8,8 +8,6 @@ public class CameraController : MonoBehaviour
     public float rotateSpeed = 90;
     public GameObject lastHit;
     public bool mouseClick;
-    public Material dirtyWater;
-    public Material cleanWater;
     public PlayerController playerController;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,9 +26,7 @@ public class CameraController : MonoBehaviour
             lastHit = hit.transform.gameObject;
         }
 
-
-        cameraYInput = Input.GetAxis("Mouse Y");
-        transform.Rotate(Vector3.left * cameraYInput * Time.deltaTime * rotateSpeed);
+        CameraRotate();
 
         mouseClick = Input.GetMouseButtonDown(0);
 
@@ -41,10 +37,15 @@ public class CameraController : MonoBehaviour
                 GameObject.Find("Sphere").gameObject.transform.Translate(playerController.transform.position + Vector3.forward);
             }
             
-            //lastHit.GetComponent<MeshRenderer>().material = cleanWater;           
+        ;           
         }
 
     }
 
+    void CameraRotate()
+    {
+        cameraYInput = Input.GetAxis("Mouse Y");
+        transform.Rotate(Vector3.left * cameraYInput * Time.deltaTime * rotateSpeed);
+    }
 
 }
