@@ -411,6 +411,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraController: {fileID: 330585548}
   mouseClick: 0
+  treeClicked: 0
+  treeDurability: 5
+  treeDelay: 0
 --- !u!4 &299257582
 Transform:
   m_ObjectHideFlags: 0
@@ -2862,7 +2865,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.7
   m_Height: 7
   m_Direction: 1
   m_Center: {x: 0, y: 3, z: 0}
@@ -3404,7 +3407,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.5
   m_Height: 5
   m_Direction: 1
   m_Center: {x: 0, y: 2, z: 0}

@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
 {
     public float cameraYInput;
     public float rotateSpeed = 90;
+    private float rayDistance = 2.0f;
     public GameObject lastHit {  get; private set; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,9 +33,13 @@ public class CameraController : MonoBehaviour
     {
         var ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, rayDistance))
         {
            lastHit = hit.transform.gameObject;
+        }
+        else
+        {
+            lastHit = null;
         }
         
     }
