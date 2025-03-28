@@ -14,7 +14,7 @@ main class of Tree
 	-small pine
 	-tall pine
 
-Level System - 1.1x exponetion growth between levels
+Level System - 1.1x exponetional growth between levels
 -level one dead tree base cutting speed
 -level 5 double cutting speed
 -level 10 small pine
@@ -28,13 +28,13 @@ Level System - 1.1x exponetion growth between levels
 	-time to chop
 	-xp reward
 		-dead
-			-5 second chop
+			-3 second chop
 			-10xp
 		-small
-			-15 second chop
+			-5 second chop
 			-50xp
 		-tall
-			-30 second chop
+			-10 second chop
 			-200xp
 -XP tracking script
 -UI script

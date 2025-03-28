@@ -390,6 +390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 299257582}
   - component: {fileID: 299257581}
+  - component: {fileID: 299257583}
   m_Layer: 0
   m_Name: MainManager
   m_TagString: Untagged
@@ -409,11 +410,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 608a7d9922d1364429a10895314da3c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainCamera: {fileID: 0}
   CameraController: {fileID: 330585548}
   mouseClick: 0
   treeClicked: 0
   treeDurability: 5
   treeDelay: 0
+  activeTree: {fileID: 0}
+  treeRespawn: 0
+  treeXP: 0
+  treeLevel: 0
+  XPTracker: {fileID: 0}
 --- !u!4 &299257582
 Transform:
   m_ObjectHideFlags: 0
@@ -429,6 +436,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &299257583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299257580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72985a20d255104f84e80890d762900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cuttingLevel: 0
+  cuttingXP: 0
+  totalCuttingXP: 0
+  baseLevelXP: 80
+  growthRate: 1.1
+  XPToLevel: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
