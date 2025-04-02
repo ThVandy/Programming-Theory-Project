@@ -6,8 +6,8 @@ public class XPTracker : MonoBehaviour
     public int cuttingXP;
     public int totalCuttingXP;
     public int baseLevelXP = 80;
-    public float growthRate = 1.1f;
-    public float XPToLevel;
+    public float growthRate = 1.5f;
+    public float xPToLevel;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,8 +19,8 @@ public class XPTracker : MonoBehaviour
     {
         totalCuttingXP = totalCuttingXP + cuttingXP;
         cuttingXP = 0;
-        XPToLevel = baseLevelXP * Mathf.Pow(cuttingLevel, growthRate);
-        if (totalCuttingXP >= XPToLevel)
+        xPToLevel = baseLevelXP * Mathf.Pow(cuttingLevel, growthRate);
+        if (totalCuttingXP >= xPToLevel)
         {
             cuttingLevel++;
         }

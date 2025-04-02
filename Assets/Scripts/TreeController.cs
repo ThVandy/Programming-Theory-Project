@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TreeController : MonoBehaviour
@@ -9,6 +10,7 @@ public class TreeController : MonoBehaviour
     public CameraController CameraController;
     public bool mouseClick;
     public bool treeClicked;
+    public bool delayReset;
     public float treeDurability;
     public float treeDelay;
     public GameObject activeTree;
@@ -41,6 +43,7 @@ public class TreeController : MonoBehaviour
         if (mouseClick && CameraController.lastHit != null && CameraController.lastHit.CompareTag("Tree"))
         {
             treeClicked = true;
+            
             activeTree = CameraController.lastHit;
             treeRespawn = activeTree.GetComponent<TreeScript>().treeRespawn;
             treeDurability = activeTree.GetComponent<TreeScript>().treeDurability;
@@ -56,36 +59,43 @@ public class TreeController : MonoBehaviour
 
     public IEnumerator CutTree()
     {
+        if (!delayReset)
+        {
+            treeDelay = treeDurability;
+            delayReset = true;
+        }
         while (treeClicked)
         {
-            if (treeLevel <= XPTracker.cuttingLevel)
+            if (delayReset)
             {
-                if (treeDelay > 0)
+                if (treeLevel <= XPTracker.cuttingLevel)
                 {
-                    treeDelay = treeDelay - Time.deltaTime;
+
+                    if (treeDelay > 0)
+                    {
+                        treeDelay = treeDelay - Time.deltaTime;
+                    }
+                    else if (treeDelay <= 0)
+                    {
+                        Debug.Log("You cut down a tree");
+                        //despawn and respawn cut tree
+                        StartCoroutine(TreeSpawning(activeTree));
+
+                        XPTracker.cuttingXP = treeXP;
+                        delayReset = false;
+                        mouseClick = false;
+
+                    }
+
                 }
-                else if (treeDelay <= 0)
+                else
                 {
-                    Debug.Log("You cut down a tree");
-                    //despawn and respawn cut tree
-                    StartCoroutine(TreeSpawning(activeTree));
-
-                    XPTracker.cuttingXP = treeXP;
-                    treeDelay = treeDurability;
-                    mouseClick = false;
-
+                    Debug.Log("Not high enough level");
                 }
-                yield break;
-            }
-            else
-            {
-                Debug.Log("Not high enough level");
             }
             yield break;
-            
         }
-        treeDelay = treeDurability;
-        yield break;
+        delayReset = false;
     }
 
     public IEnumerator TreeSpawning(GameObject removedTree)
