@@ -76,7 +76,6 @@ public class TreeController : MonoBehaviour
             {
                 if (treeLevel <= XPTracker.cuttingLevel)
                 {
-
                     if (treeDelay > 0)
                     {
                         treeDelay = treeDelay - Time.deltaTime;
@@ -86,13 +85,10 @@ public class TreeController : MonoBehaviour
                         Debug.Log("You cut down a tree");
                         //despawn and respawn cut tree
                         StartCoroutine(TreeSpawning(activeTree));
-
                         XPTracker.cuttingXP = treeXP;
                         delayReset = false;
                         mouseClick = false;
-
                     }
-
                 }
                 else
                 {
