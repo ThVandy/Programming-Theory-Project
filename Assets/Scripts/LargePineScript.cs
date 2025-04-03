@@ -10,11 +10,16 @@ public class LargePineScript : TreeScript
         treeRespawn = 10;
         treeXP = 200;
         treeLevel = 10;
+        StatusSet();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    public override void TreeStatus()
+    {
+        statusMessage.text = "This is a Large Pine that takes " + treeDurability + " seconds to cut.";
     }
 }

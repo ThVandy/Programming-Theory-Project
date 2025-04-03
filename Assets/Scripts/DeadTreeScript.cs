@@ -10,11 +10,16 @@ public class DeadTreeScript : TreeScript
         treeRespawn = 3;
         treeXP = 10;
         treeLevel = 1;
+        StatusSet();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public override void TreeStatus()
+    {
+        statusMessage.text = "This is a Dead Tree that takes " + treeDurability + " seconds to cut.";
     }
 }

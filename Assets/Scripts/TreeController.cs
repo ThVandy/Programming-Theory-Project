@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ public class TreeController : MonoBehaviour
     public int treeXP;
     public int treeLevel;
     public XPTracker XPTracker;
+    public GameObject status;
+    public TextMeshProUGUI statusMessage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,7 +28,9 @@ public class TreeController : MonoBehaviour
         MainCamera = GameObject.Find("Main Camera");
         CameraController = MainCamera.GetComponent<CameraController>();
         XPTracker = GetComponent<XPTracker>();
-       
+        status = GameObject.Find("Status");
+        statusMessage = status.GetComponent<TextMeshProUGUI>();
+        statusMessage.text = "Click on a Tree!";
     }
 
     // Update is called once per frame
@@ -45,6 +50,7 @@ public class TreeController : MonoBehaviour
             treeClicked = true;
             
             activeTree = CameraController.lastHit;
+            activeTree.GetComponent<TreeScript>().TreeStatus();
             treeRespawn = activeTree.GetComponent<TreeScript>().treeRespawn;
             treeDurability = activeTree.GetComponent<TreeScript>().treeDurability;
             treeXP = activeTree.GetComponent<TreeScript>().treeXP;
@@ -90,7 +96,7 @@ public class TreeController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Not high enough level");
+                    statusMessage.text = "Not high enough level to cut this tree";
                 }
             }
             yield break;
