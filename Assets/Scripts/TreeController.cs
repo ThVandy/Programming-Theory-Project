@@ -6,22 +6,23 @@ using UnityEngine;
 
 public class TreeController : MonoBehaviour
 {
+    //Private variables for the Tree Contoller logic
+    private GameObject MainCamera;
+    private CameraController CameraController;
+    private bool mouseClick;
+    private bool treeClicked;
+    private bool delayReset;
+    private float treeDurability;
+    private float treeDelay;
+    private GameObject activeTree;
+    private float treeRespawn;
+    private int treeXP;
+    private int treeLevel;
+    private XPTracker XPTracker;
+    private GameObject status;
+    private TextMeshProUGUI statusMessage;
 
-    public GameObject MainCamera;
-    public CameraController CameraController;
-    public bool mouseClick;
-    public bool treeClicked;
-    public bool delayReset;
-    public float treeDurability;
-    public float treeDelay;
-    public GameObject activeTree;
-    public float treeRespawn;
-    public int treeXP;
-    public int treeLevel;
-    public XPTracker XPTracker;
-    public GameObject status;
-    public TextMeshProUGUI statusMessage;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //Finds and sets the Camera Object script, the XP tracker script, and the Status UI message
     void Start()
     {
        
@@ -30,10 +31,10 @@ public class TreeController : MonoBehaviour
         XPTracker = GetComponent<XPTracker>();
         status = GameObject.Find("Status");
         statusMessage = status.GetComponent<TextMeshProUGUI>();
-        statusMessage.text = "Click on a Tree!";
+        statusMessage.text = "Hold Click on a Tree!";
     }
 
-    // Update is called once per frame
+    //Checks for input and runs tree cutting logic
     void Update()
     {
         
@@ -42,14 +43,16 @@ public class TreeController : MonoBehaviour
         StartCoroutine(CutTree());
         
     }
-
-    public void TreeCheck()
+    //Checks if a tree is clicked and if so updates the variables
+    private void TreeCheck()
     {
+        //Checking if a tree is clicked
         if (mouseClick && CameraController.lastHit != null && CameraController.lastHit.CompareTag("Tree"))
         {
             treeClicked = true;
-            
+            //setting the active tree from the camera
             activeTree = CameraController.lastHit;
+            //Updating the tree's variables
             activeTree.GetComponent<TreeScript>().TreeStatus();
             treeRespawn = activeTree.GetComponent<TreeScript>().treeRespawn;
             treeDurability = activeTree.GetComponent<TreeScript>().treeDurability;
@@ -58,33 +61,41 @@ public class TreeController : MonoBehaviour
         }
         else
         {
+            //Marks if tree is not clicked
             treeClicked = false;
 
         }
     }
-
-    public IEnumerator CutTree()
+    //Method for cutting down a tree
+    private IEnumerator CutTree()
     {
+        //Checks to see if the tree delay has been reset
         if (!delayReset)
         {
+            //sets the delay to the durability
             treeDelay = treeDurability;
             delayReset = true;
         }
+        //While the mouse is held down continues to cop the tree
         while (treeClicked)
         {
+            //Checks the delay matches the durability before starting the chop
             if (delayReset)
             {
+                //Checks the player is the Level needed to cut the tree
                 if (treeLevel <= XPTracker.cuttingLevel)
                 {
+                    //If the delay hasn't been reached continues to remove time from the delay
                     if (treeDelay > 0)
                     {
                         treeDelay = treeDelay - Time.deltaTime;
                     }
+                    //Once tree delay is gone it continues cutting the tree
                     else if (treeDelay <= 0)
                     {
-                        Debug.Log("You cut down a tree");
-                        //despawn and respawn cut tree
+                        //despawn and respawn the cut tree
                         StartCoroutine(TreeSpawning(activeTree));
+                        //Sets the XP for the XP tracker
                         XPTracker.cuttingXP = treeXP;
                         delayReset = false;
                         mouseClick = false;
@@ -92,15 +103,17 @@ public class TreeController : MonoBehaviour
                 }
                 else
                 {
+                    //Message to inform the player can't cut a tree
                     statusMessage.text = "Not high enough level to cut this tree";
                 }
             }
             yield break;
         }
+        //Resets delay is mouse isn't held down
         delayReset = false;
     }
-
-    public IEnumerator TreeSpawning(GameObject removedTree)
+    //Method for removing the tree game object and bring it back after the respawn timer
+    private IEnumerator TreeSpawning(GameObject removedTree)
     {
         removedTree.SetActive(false);
         yield return new WaitForSeconds(treeRespawn);
