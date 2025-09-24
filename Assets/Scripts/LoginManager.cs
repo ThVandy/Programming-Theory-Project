@@ -31,7 +31,11 @@ public class LoginManager : MonoBehaviour
     private TMP_InputField usernameField;
     private TMP_InputField passwordField;
     private Button loginButton;
+<<<<<<< Updated upstream
     private string dbPath = "Assets/users.db";
+=======
+    //private string dbPath = "Assets/users.db";
+>>>>>>> Stashed changes
     private string dbName = "URI=file:Assets/TestUsers.db";
     string usernameDBString;
     string passwordDBString;
