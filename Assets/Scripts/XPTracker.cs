@@ -4,7 +4,7 @@ public class XPTracker : MonoBehaviour
 {
     //Encapsulated variables for the XP tracker
     private GameObject MenuManager;
-    public MenuManager MenuManagerScript;
+    private MenuManager MenuManagerScript;
     public int cuttingLevel { get; private set; }
     public int cuttingXP { private get; set; }
     public int totalCuttingXP { get; private set; }

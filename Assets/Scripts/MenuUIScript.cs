@@ -4,17 +4,17 @@ using UnityEngine.SceneManagement;
 public class MenuUIScript : MonoBehaviour
 {
     //Methods for saving the XP with a button
-    public void SaveButton()
+    private void SaveButton()
     {
         MenuManager.Instance.SaveXP();
     }
     //Methods for loading the XP with a button
-    public void LoadButton()
+    private void LoadButton()
     {
         MenuManager.Instance.LoadXP();
     }
     //Methods for starting the game with a button
-    public void StartButton()
+    private void StartButton()
     {
         SceneManager.LoadScene(1);
     }
