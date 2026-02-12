@@ -47,12 +47,21 @@ public class LoginManager : MonoBehaviour
     {
         url = "http://api.vandy.land/api/login";
         Debug.Log("Logging in with Username: " + username + " Password: " + password);
-        LoginDataToPayload();
+        PlayerDataToPayload();
         Debug.Log("Json payload: " + payload);
-        LoginConnection();
+        APIConnection();
+        
+    }
+    public void Register()
+    {
+        url = "http://api.vandy.land/api/register";
+        Debug.Log("Registering in with Username: " + username + " Password: " + password);
+        PlayerDataToPayload();
+        Debug.Log("Json payload: " + payload);
+        APIConnection();
     }
 
-    public void LoginDataToPayload()
+    public void PlayerDataToPayload()
     {
         username = usernameInput.text;
         password = passwordInput.text;
@@ -67,11 +76,13 @@ public class LoginManager : MonoBehaviour
         payload = json;
     }
 
-    async Task LoginConnection()
+    async Task APIConnection()
     {
+        
         using var client = new HttpClient();
+        Debug.Log($"{payload} being sent");
         var content = new StringContent(payload, Encoding.UTF8, "application/json");
-        Debug.Log($"What is sent to server: {content}");
+        Debug.Log($"What is sent to server: {content} and waiting response");
 
         try
         {
@@ -87,5 +98,6 @@ public class LoginManager : MonoBehaviour
         {
             Debug.Log($"Error 2: {ex.Message}");
         }
+
     }
 }
