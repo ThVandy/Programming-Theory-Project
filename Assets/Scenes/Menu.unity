@@ -1247,9 +1247,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1891987413}
-        m_TargetAssemblyTypeName: MenuUIScript, Assembly-CSharp
-        m_MethodName: LoadButton
+      - m_Target: {fileID: 1989956198}
+        m_TargetAssemblyTypeName: LoginManager, Assembly-CSharp
+        m_MethodName: Register
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
