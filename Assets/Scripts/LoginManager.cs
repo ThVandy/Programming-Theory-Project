@@ -1,4 +1,5 @@
 using Mono.Cecil;
+using NUnit.Framework;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -9,11 +10,28 @@ using UnityEditor.PackageManager;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerLoginData
+public class InputData
 {
     public string username;
     public string password;
 }
+
+[System.Serializable]
+public class PlayerData
+{
+    public int id;
+    public string username;
+}
+
+[System.Serializable]
+public class ServerData
+{
+    public bool success;
+    public string message;
+    public string token;
+    public string data;
+}
+
 
 
 public class LoginManager : MonoBehaviour
@@ -26,6 +44,12 @@ public class LoginManager : MonoBehaviour
     public string password;
     public string payload;
     public string url;
+    public string serverResponse;
+    public bool serverSuccess;
+    public string serverMessage;
+    public string playerToken;
+    public string playerData;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -43,30 +67,34 @@ public class LoginManager : MonoBehaviour
     }
     */
 
-    public void Login()
+    public async void Login()
     {
         url = "http://api.vandy.land/api/login";
         Debug.Log("Logging in with Username: " + username + " Password: " + password);
-        PlayerDataToPayload();
+        InputDataToPayload();
         Debug.Log("Json payload: " + payload);
-        APIConnection();
+        await APIConnection();
+        Debug.Log($"The server said: {serverResponse}");
+        ServerResponseToServerData();
+        ServerDataToPlayerData();
+
         
     }
-    public void Register()
+    public async void Register()
     {
         url = "http://api.vandy.land/api/register";
-        Debug.Log("Registering in with Username: " + username + " Password: " + password);
-        PlayerDataToPayload();
-        Debug.Log("Json payload: " + payload);
-        APIConnection();
+        Debug.Log($"Registering in with Username: {username}, Password: {password}");
+        InputDataToPayload();
+        Debug.Log($"Json payload:{payload}");
+        await APIConnection();
     }
 
-    public void PlayerDataToPayload()
+    public void InputDataToPayload()
     {
         username = usernameInput.text;
         password = passwordInput.text;
 
-        PlayerLoginData data = new PlayerLoginData();
+        InputData data = new InputData();
         data.username = username;
         data.password = password;
 
@@ -74,6 +102,26 @@ public class LoginManager : MonoBehaviour
         Debug.Log(json);
 
         payload = json;
+    }
+
+    public void ServerResponseToServerData()
+    {
+        ServerData myData = JsonUtility.FromJson<ServerData>(serverResponse);
+        Debug.Log($"Server success is {myData.success}");
+        serverSuccess = myData.success;
+        Debug.Log($"Server message data is {myData.message}");
+        serverMessage = myData.message;
+        Debug.Log($"Player token is {myData.token}");
+        playerToken = myData.token;
+        Debug.Log($"Player server data is {myData.data}");
+        playerData = myData.data;
+    }
+
+    public void ServerDataToPlayerData()
+    {
+        PlayerData data = JsonUtility.FromJson<PlayerData>(playerData);
+        Debug.Log($"Player ID is {data.id}");
+        Debug.Log($"Player username is {data.username}");
     }
 
     async Task APIConnection()
@@ -90,7 +138,10 @@ public class LoginManager : MonoBehaviour
             string body = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
+            {
                 Debug.Log(body);
+                serverResponse = body;
+            }
             else
                 Debug.Log($"Error 1: {response.StatusCode}\n{body}");
         }
@@ -99,5 +150,7 @@ public class LoginManager : MonoBehaviour
             Debug.Log($"Error 2: {ex.Message}");
         }
 
+        
     }
 }
+
