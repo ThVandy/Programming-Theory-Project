@@ -15,12 +15,12 @@ public class InputData
     public string username;
     public string password;
 }
-
+//JSON is CASE SENSITIVE!
 [System.Serializable]
 public class PlayerData
 {
-    public int id;
-    public string username;
+    public int ID;
+    public string Username;
 }
 
 [System.Serializable]
@@ -29,10 +29,8 @@ public class ServerData
     public bool success;
     public string message;
     public string token;
-    public string data;
+    public PlayerData data;
 }
-
-
 
 public class LoginManager : MonoBehaviour
 {
@@ -48,8 +46,8 @@ public class LoginManager : MonoBehaviour
     public bool serverSuccess;
     public string serverMessage;
     public string playerToken;
-    public string playerData;
-
+    public int playerId;
+    public string playerUsername;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -75,10 +73,7 @@ public class LoginManager : MonoBehaviour
         Debug.Log("Json payload: " + payload);
         await APIConnection();
         Debug.Log($"The server said: {serverResponse}");
-        ServerResponseToServerData();
-        ServerDataToPlayerData();
-
-        
+        ServerResponseToPlayerData();  
     }
     public async void Register()
     {
@@ -104,7 +99,7 @@ public class LoginManager : MonoBehaviour
         payload = json;
     }
 
-    public void ServerResponseToServerData()
+    public void ServerResponseToPlayerData()
     {
         ServerData myData = JsonUtility.FromJson<ServerData>(serverResponse);
         Debug.Log($"Server success is {myData.success}");
@@ -113,20 +108,14 @@ public class LoginManager : MonoBehaviour
         serverMessage = myData.message;
         Debug.Log($"Player token is {myData.token}");
         playerToken = myData.token;
-        Debug.Log($"Player server data is {myData.data}");
-        playerData = myData.data;
-    }
-
-    public void ServerDataToPlayerData()
-    {
-        PlayerData data = JsonUtility.FromJson<PlayerData>(playerData);
-        Debug.Log($"Player ID is {data.id}");
-        Debug.Log($"Player username is {data.username}");
+        Debug.Log($"Player id is {myData.data.ID}");
+        playerId = myData.data.ID;
+        Debug.Log($"Player username is {myData.data.Username}");
+        playerUsername = myData.data.Username;
     }
 
     async Task APIConnection()
     {
-        
         using var client = new HttpClient();
         Debug.Log($"{payload} being sent");
         var content = new StringContent(payload, Encoding.UTF8, "application/json");
@@ -149,8 +138,5 @@ public class LoginManager : MonoBehaviour
         {
             Debug.Log($"Error 2: {ex.Message}");
         }
-
-        
     }
 }
-
