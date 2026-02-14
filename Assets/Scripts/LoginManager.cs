@@ -2,6 +2,7 @@ using Mono.Cecil;
 using NUnit.Framework;
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
@@ -15,13 +16,6 @@ public class InputData
     public string username;
     public string password;
 }
-//JSON is CASE SENSITIVE!
-[System.Serializable]
-public class PlayerData
-{
-    public int ID;
-    public string Username;
-}
 
 [System.Serializable]
 public class ServerData
@@ -30,6 +24,20 @@ public class ServerData
     public string message;
     public string token;
     public PlayerData data;
+}
+//JSON is CASE SENSITIVE!
+[System.Serializable]
+public class PlayerData
+{
+    public int id;
+    public string username;
+    public int xp;
+}
+
+[System.Serializable]
+public class SaveData
+{
+    public int xp;
 }
 
 public class LoginManager : MonoBehaviour
@@ -48,6 +56,7 @@ public class LoginManager : MonoBehaviour
     public string playerToken;
     public int playerId;
     public string playerUsername;
+    public int playerXp;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -68,10 +77,10 @@ public class LoginManager : MonoBehaviour
     public async void Login()
     {
         url = "http://api.vandy.land/api/login";
-        Debug.Log("Logging in with Username: " + username + " Password: " + password);
+        Debug.Log($"Logging in with Username: {username} Password: {password}");
         InputDataToPayload();
-        Debug.Log("Json payload: " + payload);
-        await APIConnection();
+        Debug.Log($"Json payload:{payload}");
+        await APIPostConnection();
         Debug.Log($"The server said: {serverResponse}");
         ServerResponseToPlayerData();  
     }
@@ -81,7 +90,20 @@ public class LoginManager : MonoBehaviour
         Debug.Log($"Registering in with Username: {username}, Password: {password}");
         InputDataToPayload();
         Debug.Log($"Json payload:{payload}");
-        await APIConnection();
+        await APIPostConnection();
+    }
+
+    public async void Save()
+    {
+        if (playerId != 0)
+        {
+            url = $"http://api.vandy.land/api/users/{playerId}";
+            Debug.Log(url);
+            Debug.Log($"Saving {playerXp} Xp of player {playerId}");
+            SaveDataToPayload();
+            Debug.Log($"Json payload:{payload}");
+            await APIPutConnection();
+        }
     }
 
     public void InputDataToPayload()
@@ -99,22 +121,35 @@ public class LoginManager : MonoBehaviour
         payload = json;
     }
 
+    public void SaveDataToPayload()
+    {
+        SaveData data = new SaveData();
+        data.xp = playerXp;
+
+        string json = JsonUtility.ToJson(data);
+        Debug.Log(json);
+
+        payload = json;
+    }
+
     public void ServerResponseToPlayerData()
     {
         ServerData myData = JsonUtility.FromJson<ServerData>(serverResponse);
-        Debug.Log($"Server success is {myData.success}");
+        Debug.Log($"Server success: {myData.success}");
         serverSuccess = myData.success;
-        Debug.Log($"Server message data is {myData.message}");
+        Debug.Log($"Server message data: {myData.message}");
         serverMessage = myData.message;
-        Debug.Log($"Player token is {myData.token}");
+        Debug.Log($"Player token: {myData.token}");
         playerToken = myData.token;
-        Debug.Log($"Player id is {myData.data.ID}");
-        playerId = myData.data.ID;
-        Debug.Log($"Player username is {myData.data.Username}");
-        playerUsername = myData.data.Username;
+        Debug.Log($"Player Id: {myData.data.id}");
+        playerId = myData.data.id;
+        Debug.Log($"Player Username: {myData.data.username}");
+        playerUsername = myData.data.username;
+        Debug.Log($"Player Xp: {myData.data.xp}");
+        playerXp = myData.data.xp;
     }
 
-    async Task APIConnection()
+    async Task APIPostConnection()
     {
         using var client = new HttpClient();
         Debug.Log($"{payload} being sent");
@@ -137,6 +172,37 @@ public class LoginManager : MonoBehaviour
         catch (Exception ex)
         {
             Debug.Log($"Error 2: {ex.Message}");
+        }
+    }
+
+    async Task APIPutConnection()
+    {
+
+        if (playerToken != null)
+        {
+            using var client = new HttpClient();
+            Debug.Log($"{payload} being sent");
+            var content = new StringContent(payload, Encoding.UTF8, "application/json");
+            Debug.Log($"What is sent to server: {content} and waiting response");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{playerToken}");
+
+            try
+            {
+                var response = await client.PutAsync(url, content);
+                string body = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.Log(body);
+                    serverResponse = body;
+                }
+                else
+                    Debug.Log($"Error 1: {response.StatusCode}\n{body}");
+            }
+            catch (Exception ex)
+            {
+                Debug.Log($"Error 2: {ex.Message}");
+            }
         }
     }
 }
