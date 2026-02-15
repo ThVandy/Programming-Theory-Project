@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private float mouseXInput;
     private float movementSpeed = 5;
     private float rotateSpeed = 90;
+    public UIScript uiScript;
 
     private void Start()
     {
@@ -25,9 +26,14 @@ public class PlayerController : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.forward * horizontalInput * Time.deltaTime * movementSpeed);
 
-        //Rotates the player around
-        mouseXInput = Input.GetAxis("Mouse X");
-        transform.Rotate(Vector3.up * mouseXInput * Time.deltaTime * rotateSpeed);
+        if(!uiScript.gamePause)
+        {
+            //Rotates the player around
+            mouseXInput = Input.GetAxis("Mouse X");
+            transform.Rotate(Vector3.up * mouseXInput * Time.deltaTime * rotateSpeed);
+        }
+
+        
 
     }
 

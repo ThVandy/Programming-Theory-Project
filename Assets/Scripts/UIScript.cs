@@ -12,7 +12,7 @@ public class UIScript : MonoBehaviour
     private TextMeshProUGUI xpToLevelTextMessage;
     private GameObject mainManager;
     private XPTracker XpTracker;
-    private bool gamePause;
+    public bool gamePause;
     private GameObject pauseMenu;
 
     //Finds and sets the player's level, XP to the next level, XP tracker script and pause menu game object
@@ -56,10 +56,10 @@ public class UIScript : MonoBehaviour
             }
             else
             {
-                gamePause = false;
                 pauseMenu.SetActive(false);
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
+                gamePause = false;
             }
         }
     }

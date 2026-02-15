@@ -766,6 +766,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationX: -60
   maxRotationX: 60
+  uiScript: {fileID: 348956668}
 --- !u!1 &341800968 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5517711862614644272, guid: 4778fb0ebd4d7554887f2bd7e6fa39c1, type: 3}
@@ -890,6 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b187ab240bc65174a867f804f82b964c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamePause: 0
 --- !u!1001 &368279332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1804,6 +1806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fe7eee5dad41c049ba6ce08fe864b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiScript: {fileID: 348956668}
 --- !u!54 &885275407
 Rigidbody:
   m_ObjectHideFlags: 0

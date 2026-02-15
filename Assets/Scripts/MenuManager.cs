@@ -1,72 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.IO;
-using Unity.VisualScripting;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 
 public class MenuManager : MonoBehaviour
 {
-    //Variables for the MenuManager
-    public static MenuManager Instance { get; private set; }
-    //Total XP stored here
-    public int totalXp;
+    public APIManager apiManager;
+    public MenuUIScript menuUIScript;
 
-
-    private void Awake()
+    
+    //Method for starting the game with a button
+    public void PlayButton()
     {
-        //Checks to see if an Instance already exists
-        if (Instance != null)
-        {
-            //Destroys the game object if already an Instance
-            Destroy(gameObject);
-            return;
-        }
-
-        //Sets the Game Object Instance and adds it to Don't Destroy on Load
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        SceneManager.LoadScene(1);
     }
 
-    //New class for save data
-    [System.Serializable]
-    class SaveData
+    //Methods for loading the XP with a button
+    public async void LoginButton()
     {
-        public int totalCuttingXP;
+        await apiManager.Login();
+        menuUIScript.LoggedIn();
+        
     }
-    //Method for saving the score to JSON
-    public void SaveXP()
+
+    public async void RegisterButton()
     {
-        //Sets the XP from MenuManager to SaveData class variable
-        SaveData data = new SaveData();
-        data.totalCuttingXP = totalXp;
-
-        //Stringify the data to JSON
-        string json = JsonUtility.ToJson(data);
-
-        //Writes the JSON to a file in the path
-        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        await apiManager.Register();
+        menuUIScript.Registered();
     }
-    //Method for loading the XP from JSON
-    public void LoadXP()
+
+    //Methods for saving the XP with a button
+    public async void SaveButton()
     {
-        //Finds the path to the save file
-        string path = Application.persistentDataPath + "/savefile.json";
-        //Checks if a save file exists
-        if (File.Exists(path))
-        {
-            //Gets the JSON and sets it to the SaveData variable
-            string json = File.ReadAllText(path);
-            SaveData data = JsonUtility.FromJson<SaveData>(json);
-
-            //Sets the SaveData to the MenuManager variable 
-            totalXp = data.totalCuttingXP;
-
-        }
+        await apiManager.Save();
+        menuUIScript.Saved();
     }
 }
