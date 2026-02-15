@@ -1255,51 +1255,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571417838}
   m_CullTransparentMesh: 1
---- !u!1 &582554567
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 582554569}
-  - component: {fileID: 582554568}
-  m_Layer: 0
-  m_Name: MenuManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &582554568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 582554567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd4320e1c2a874945a48b8a2556dd795, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  totalCuttingXP: 0
---- !u!4 &582554569
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 582554567}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 947.43915, y: 267.24527, z: 6.6518083}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &805265513
 GameObject:
   m_ObjectHideFlags: 0
@@ -2456,13 +2411,14 @@ GameObject:
   - component: {fileID: 1704827335}
   - component: {fileID: 1704827334}
   - component: {fileID: 1704827333}
+  - component: {fileID: 1704827336}
   m_Layer: 5
   m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1704827332
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2472,7 +2428,7 @@ RectTransform:
   m_GameObject: {fileID: 1704827331}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1073250736}
@@ -2480,7 +2436,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 160}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1704827333
@@ -2577,6 +2533,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1704827331}
   m_CullTransparentMesh: 1
+--- !u!114 &1704827336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704827331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7ef147b06b9e2d479cc317a4f8cadcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1891987408
 GameObject:
   m_ObjectHideFlags: 0
@@ -2696,7 +2664,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1891987408}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a0825e5f18758b448ba4229619d61f8, type: 3}
+  m_Script: {fileID: 11500000, guid: b7ef147b06b9e2d479cc317a4f8cadcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1989956195
@@ -2709,6 +2677,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1989956197}
   - component: {fileID: 1989956198}
+  - component: {fileID: 1989956199}
   m_Layer: 0
   m_Name: LoginManager
   m_TagString: Untagged
@@ -2755,9 +2724,20 @@ MonoBehaviour:
   serverSuccess: 0
   serverMessage: 
   playerToken: 
-  playerId: 0
   playerUsername: 
   playerXp: 0
+--- !u!114 &1989956199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989956195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7ef147b06b9e2d479cc317a4f8cadcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2004945053
 GameObject:
   m_ObjectHideFlags: 0
@@ -2841,9 +2821,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1989956198}
+      - m_Target: {fileID: 1891987408}
         m_TargetAssemblyTypeName: LoginManager, Assembly-CSharp
-        m_MethodName: Save
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2978,5 +2958,4 @@ SceneRoots:
   - {fileID: 278300404}
   - {fileID: 1891987412}
   - {fileID: 2125373108}
-  - {fileID: 582554569}
   - {fileID: 1989956197}

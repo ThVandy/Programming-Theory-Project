@@ -15,7 +15,7 @@ public class MenuManager : MonoBehaviour
     //Variables for the MenuManager
     public static MenuManager Instance { get; private set; }
     //Total XP stored here
-    public int totalCuttingXP;
+    public int totalXp;
 
 
     private void Awake()
@@ -44,7 +44,7 @@ public class MenuManager : MonoBehaviour
     {
         //Sets the XP from MenuManager to SaveData class variable
         SaveData data = new SaveData();
-        data.totalCuttingXP = totalCuttingXP;
+        data.totalCuttingXP = totalXp;
 
         //Stringify the data to JSON
         string json = JsonUtility.ToJson(data);
@@ -65,7 +65,7 @@ public class MenuManager : MonoBehaviour
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
             //Sets the SaveData to the MenuManager variable 
-            totalCuttingXP = data.totalCuttingXP;
+            totalXp = data.totalCuttingXP;
 
         }
     }
