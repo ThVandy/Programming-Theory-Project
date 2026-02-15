@@ -21,6 +21,7 @@ public class InputData
 public class ServerData
 {
     public bool success;
+    public string error;
     public string message;
     public string token;
     public PlayerData data;
@@ -40,80 +41,57 @@ public class SaveData
     public int xp;
 }
 
-public class LoginManager : MonoBehaviour
+public class APIManager : MonoBehaviour
 {
-    public GameObject usernameInputObject;
+    public MenuUIScript menuUIScript;
     public TMP_InputField usernameInput;
-    public GameObject passwordInputObject;
     public TMP_InputField passwordInput;
-    public string username;
-    public string password;
     public string payload;
     public string url;
     public string serverResponse;
     public bool serverSuccess;
     public string serverMessage;
-    public string playerToken;
-    public static int playerId;
-    public string playerUsername;
-    public int playerXp;
+    public string serverError;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        usernameInputObject = GameObject.Find("Username");
-        usernameInput = usernameInputObject.GetComponent<TMP_InputField>();
-        passwordInputObject = GameObject.Find ("Password");
-        passwordInput = passwordInputObject.GetComponent<TMP_InputField>();
-    }
-
-    /* Update is called once per frame
-    void Update()
-    {
-
-    }
-    */
-
-    public async void Login()
+    public async Task Login()
     {
         url = "http://api.vandy.land/api/login";
-        Debug.Log($"Logging in with Username: {username} Password: {password}");
+        Debug.Log($"Logging in with Username: {menuUIScript.usernameInput.text} Password: {menuUIScript.passwordInput.text}");
         InputDataToPayload();
         Debug.Log($"Json payload:{payload}");
         await APIPostConnection();
         Debug.Log($"The server said: {serverResponse}");
         ServerResponseToPlayerData();  
     }
-    public async void Register()
+    public async Task Register()
     {
         url = "http://api.vandy.land/api/register";
-        Debug.Log($"Registering in with Username: {username}, Password: {password}");
+        Debug.Log($"Registering in with Username: {menuUIScript.usernameInput.text}, Password: {menuUIScript.passwordInput.text}");
         InputDataToPayload();
         Debug.Log($"Json payload:{payload}");
         await APIPostConnection();
+        ServerResponseToPlayerData();
     }
 
-    public async void Save()
+    public async Task Save()
     {
-        if (playerId != 0)
+        if (GameManager.Instance.playerId != 0)
         {
-            url = $"http://api.vandy.land/api/users/{playerId}";
+            url = $"http://api.vandy.land/api/users/{GameManager.Instance.playerId}";
             Debug.Log(url);
-            Debug.Log($"Saving {playerXp} Xp of player {playerId}");
+            Debug.Log($"Saving {GameManager.Instance.playerXp} Xp of player {GameManager.Instance.playerId}");
             SaveDataToPayload();
             Debug.Log($"Json payload:{payload}");
             await APIPutConnection();
+            ServerResponseSuccessCheck();
         }
     }
 
     public void InputDataToPayload()
     {
-        username = usernameInput.text;
-        password = passwordInput.text;
-
         InputData data = new InputData();
-        data.username = username;
-        data.password = password;
+        data.username = menuUIScript.usernameInput.text;
+        data.password = menuUIScript.passwordInput.text;
 
         string json = JsonUtility.ToJson(data);
         Debug.Log(json);
@@ -124,7 +102,7 @@ public class LoginManager : MonoBehaviour
     public void SaveDataToPayload()
     {
         SaveData data = new SaveData();
-        data.xp = playerXp;
+        data.xp = GameManager.Instance.playerXp;
 
         string json = JsonUtility.ToJson(data);
         Debug.Log(json);
@@ -134,19 +112,35 @@ public class LoginManager : MonoBehaviour
 
     public void ServerResponseToPlayerData()
     {
-        ServerData myData = JsonUtility.FromJson<ServerData>(serverResponse);
-        Debug.Log($"Server success: {myData.success}");
-        serverSuccess = myData.success;
-        Debug.Log($"Server message data: {myData.message}");
-        serverMessage = myData.message;
-        Debug.Log($"Player token: {myData.token}");
-        playerToken = myData.token;
-        Debug.Log($"Player Id: {myData.data.id}");
-        playerId = myData.data.id;
-        Debug.Log($"Player Username: {myData.data.username}");
-        playerUsername = myData.data.username;
-        Debug.Log($"Player Xp: {myData.data.xp}");
-        playerXp = myData.data.xp;
+        ServerData data = JsonUtility.FromJson<ServerData>(serverResponse);
+        Debug.Log($"Server success: {data.success}");
+        serverSuccess = data.success;
+        if (serverSuccess == true)
+        {
+            Debug.Log($"Server message data: {data.message}");
+            serverMessage = data.message;
+            Debug.Log($"Player token: {data.token}");
+            GameManager.Instance.playerToken = data.token;
+            Debug.Log($"Player Id: {data.data.id}");
+            GameManager.Instance.playerId = data.data.id;
+            Debug.Log($"Player Username: {data.data.username}");
+            GameManager.Instance.playerUsername = data.data.username;
+            Debug.Log($"Player Xp: {data.data.xp}");
+            GameManager.Instance.playerXp = data.data.xp;
+        }
+        else
+        {
+            Debug.Log($"Server error: {data.error}");
+            serverError = data.error;
+        }
+        
+    }
+
+    public void ServerResponseSuccessCheck()
+    {
+        ServerData data = JsonUtility.FromJson<ServerData>(serverResponse);
+        Debug.Log($"Server success: {data.success}");
+        serverSuccess = data.success;
     }
 
     async Task APIPostConnection()
@@ -167,7 +161,10 @@ public class LoginManager : MonoBehaviour
                 serverResponse = body;
             }
             else
+            {
                 Debug.Log($"Error 1: {response.StatusCode}\n{body}");
+                serverResponse = body;
+            }
         }
         catch (Exception ex)
         {
@@ -178,13 +175,13 @@ public class LoginManager : MonoBehaviour
     async Task APIPutConnection()
     {
 
-        if (playerToken != null)
+        if (GameManager.Instance.playerToken != null)
         {
             using var client = new HttpClient();
             Debug.Log($"{payload} being sent");
             var content = new StringContent(payload, Encoding.UTF8, "application/json");
             Debug.Log($"What is sent to server: {content} and waiting response");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{playerToken}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{GameManager.Instance.playerToken}");
 
             try
             {

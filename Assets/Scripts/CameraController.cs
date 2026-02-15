@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour
     private float rotateSpeed = 90;
     private float rayDistance = 2.0f;
     private float rotationAmount;
+    public UIScript uiScript;
     public GameObject lastHit {  get; private set; }
 
     //Updates the rotation and what the Camera is pointing at
@@ -23,14 +24,15 @@ public class CameraController : MonoBehaviour
     //Roates the Camera with the mouse
     private void CameraRotate()
     {
-        cameraYInput = Input.GetAxis("Mouse Y");
-        rotationAmount = Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime;
-        currentRotationX -= rotationAmount;
-        currentRotationX = Mathf.Clamp(currentRotationX, minRotationX, maxRotationX);
-        transform.localEulerAngles = new Vector3(currentRotationX, 270, 0);
-        //transform.Rotate(Vector3.left * cameraYInput * Time.deltaTime * rotateSpeed);
-        
-
+        if (!uiScript.gamePause)
+        {
+            cameraYInput = Input.GetAxis("Mouse Y");
+            rotationAmount = Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime;
+            currentRotationX -= rotationAmount;
+            currentRotationX = Mathf.Clamp(currentRotationX, minRotationX, maxRotationX);
+            transform.localEulerAngles = new Vector3(currentRotationX, 270, 0);
+            //transform.Rotate(Vector3.left * cameraYInput * Time.deltaTime * rotateSpeed);
+        }
     }
     //Method for setting the last thing the ray cast hit within the allowed distance
     private void RaycastLastHit()
