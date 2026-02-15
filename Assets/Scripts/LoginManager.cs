@@ -54,7 +54,7 @@ public class LoginManager : MonoBehaviour
     public bool serverSuccess;
     public string serverMessage;
     public string playerToken;
-    public int playerId;
+    public static int playerId;
     public string playerUsername;
     public int playerXp;
 

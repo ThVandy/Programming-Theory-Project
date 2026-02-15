@@ -18,7 +18,7 @@ public class TreeController : MonoBehaviour
     private float treeRespawn;
     private int treeXP;
     private int treeLevel;
-    private XPTracker XPTracker;
+    private XPTracker XpTracker;
     private GameObject status;
     private TextMeshProUGUI statusMessage;
 
@@ -28,7 +28,7 @@ public class TreeController : MonoBehaviour
        
         MainCamera = GameObject.Find("Main Camera");
         CameraController = MainCamera.GetComponent<CameraController>();
-        XPTracker = GetComponent<XPTracker>();
+        XpTracker = GetComponent<XPTracker>();
         status = GameObject.Find("Status");
         statusMessage = status.GetComponent<TextMeshProUGUI>();
         statusMessage.text = "Hold Click on a Tree!";
@@ -83,7 +83,7 @@ public class TreeController : MonoBehaviour
             if (delayReset)
             {
                 //Checks the player is the Level needed to cut the tree
-                if (treeLevel <= XPTracker.cuttingLevel)
+                if (treeLevel <= XpTracker.level)
                 {
                     //If the delay hasn't been reached continues to remove time from the delay
                     if (treeDelay > 0)
@@ -96,7 +96,7 @@ public class TreeController : MonoBehaviour
                         //despawn and respawn the cut tree
                         StartCoroutine(TreeSpawning(activeTree));
                         //Sets the XP for the XP tracker
-                        XPTracker.cuttingXP = treeXP;
+                        XpTracker.xp = treeXP;
                         delayReset = false;
                         mouseClick = false;
                     }

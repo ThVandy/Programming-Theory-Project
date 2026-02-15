@@ -9,6 +9,11 @@ public class PlayerController : MonoBehaviour
     private float movementSpeed = 5;
     private float rotateSpeed = 90;
 
+    private void Start()
+    {
+        
+    }
+
     //Updates the player's position and rotation
     void Update()
     {

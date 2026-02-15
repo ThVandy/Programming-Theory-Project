@@ -8,10 +8,10 @@ public class UIScript : MonoBehaviour
 {
     private GameObject levelText;
     private TextMeshProUGUI levelTextMessage;
-    private GameObject xPToLevelText;
-    private TextMeshProUGUI xPToLevelTextMessage;
+    private GameObject xpToLevelText;
+    private TextMeshProUGUI xpToLevelTextMessage;
     private GameObject mainManager;
-    private XPTracker XPTracker;
+    private XPTracker XpTracker;
     private bool gamePause;
     private GameObject pauseMenu;
 
@@ -20,19 +20,21 @@ public class UIScript : MonoBehaviour
     {
         levelText = GameObject.Find("Level Text");
         levelTextMessage = levelText.GetComponent<TextMeshProUGUI>();
-        xPToLevelText = GameObject.Find("XP to Level Text");
-        xPToLevelTextMessage = xPToLevelText.GetComponent<TextMeshProUGUI>();
+        xpToLevelText = GameObject.Find("XP to Level Text");
+        xpToLevelTextMessage = xpToLevelText.GetComponent<TextMeshProUGUI>();
         mainManager = GameObject.Find("MainManager");
-        XPTracker = mainManager.GetComponent<XPTracker>();
+        XpTracker = mainManager.GetComponent<XPTracker>();
         pauseMenu = GameObject.Find("PauseMenu");
         pauseMenu.SetActive(false);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     //Updates the UI for the players level and XP to level and checks if the pause screen should be active
     void Update()
     {
-        levelTextMessage.text = "Level: " + XPTracker.cuttingLevel;
-        xPToLevelTextMessage.text = "XP to Level: " + Mathf.Ceil(XPTracker.xPToLevel - XPTracker.totalCuttingXP);
+        levelTextMessage.text = "Level: " + XpTracker.level;
+        xpToLevelTextMessage.text = "XP to Level: " + Mathf.Ceil(XpTracker.xpToLevel - XpTracker.totalXp);
         PauseScreen();
     }
     //Method for the button to return to the menu
@@ -49,11 +51,15 @@ public class UIScript : MonoBehaviour
             {
                 gamePause = true;
                 pauseMenu.SetActive(true);
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
             }
             else
             {
                 gamePause = false;
                 pauseMenu.SetActive(false);
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
             }
         }
     }
