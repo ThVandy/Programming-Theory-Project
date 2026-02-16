@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     public string playerUsername;
     public int playerXp;
     public string playerToken;
+    public bool warningPopUp;
+    public bool controlsPopUp;
 
 
     public static GameManager Instance { get; private set; }

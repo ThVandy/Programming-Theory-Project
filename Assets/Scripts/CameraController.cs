@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
     //Roates the Camera with the mouse
     private void CameraRotate()
     {
-        if (!uiScript.gamePause)
+        if (!uiScript.gamePause && !uiScript.controlsPopUp.activeSelf)
         {
             cameraYInput = Input.GetAxis("Mouse Y");
             rotationAmount = Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime;

@@ -18,6 +18,7 @@ public class MenuUIScript : MonoBehaviour
     public GameObject welcome;
     public TextMeshProUGUI welcomeMessage;
     public bool startedToggle;
+    public GameObject warningPopUp;
 
     private void Start()
     {
@@ -29,6 +30,14 @@ public class MenuUIScript : MonoBehaviour
         loginButton.SetActive(true);
         registerButton.SetActive(true);
         startedToggle = true;
+        if (GameManager.Instance.warningPopUp == true)
+        {
+            warningPopUp.SetActive(false);
+        }
+        else
+        {
+            warningPopUp.SetActive(true);
+        }
     }
 
     public void Update()
@@ -39,6 +48,13 @@ public class MenuUIScript : MonoBehaviour
             startedToggle = false;
         }
     }
+
+    public void WarningPopUp()
+    {
+        warningPopUp.SetActive(false);
+        GameManager.Instance.warningPopUp = true;
+    }
+
 
     public void LoggedIn()
     {
