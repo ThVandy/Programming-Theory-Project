@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
+using JetBrains.Annotations;
 
 
 public class UIScript : MonoBehaviour
@@ -14,6 +15,7 @@ public class UIScript : MonoBehaviour
     private XPTracker XpTracker;
     public bool gamePause;
     private GameObject pauseMenu;
+    public GameObject controlsPopUp;
 
     //Finds and sets the player's level, XP to the next level, XP tracker script and pause menu game object
     void Start()
@@ -26,8 +28,24 @@ public class UIScript : MonoBehaviour
         XpTracker = mainManager.GetComponent<XPTracker>();
         pauseMenu = GameObject.Find("PauseMenu");
         pauseMenu.SetActive(false);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if(GameManager.Instance.controlsPopUp == true)
+        {
+            controlsPopUp.SetActive(false);
+        }
+        else
+        {
+            controlsPopUp.SetActive(true);
+        }
+        if (controlsPopUp.activeSelf == true)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     //Updates the UI for the players level and XP to level and checks if the pause screen should be active
@@ -36,9 +54,18 @@ public class UIScript : MonoBehaviour
         levelTextMessage.text = "Level: " + XpTracker.level;
         xpToLevelTextMessage.text = "XP to Level: " + Mathf.Ceil(XpTracker.xpToLevel - XpTracker.totalXp);
         PauseScreen();
+        
     }
+    public void ControlsPopUp()
+    {
+        controlsPopUp.SetActive(false);
+        GameManager.Instance.controlsPopUp = true;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     //Method for the button to return to the menu
-    private void BackToMenu()
+    public void BackToMenu()
     {
         SceneManager.LoadScene(0);
     }

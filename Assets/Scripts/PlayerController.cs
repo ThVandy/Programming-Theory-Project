@@ -26,15 +26,13 @@ public class PlayerController : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.forward * horizontalInput * Time.deltaTime * movementSpeed);
 
-        if(!uiScript.gamePause)
+        if(!uiScript.gamePause && !uiScript.controlsPopUp.activeSelf)
         {
             //Rotates the player around
             mouseXInput = Input.GetAxis("Mouse X");
             transform.Rotate(Vector3.up * mouseXInput * Time.deltaTime * rotateSpeed);
         }
-
-        
-
+       
     }
 
 }
