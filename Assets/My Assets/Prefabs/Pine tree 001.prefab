@@ -61,6 +61,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -82,9 +84,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &5014618907138859916
 GameObject:
@@ -95,8 +99,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5682506986722720054}
-  - component: {fileID: 7583407985022968929}
-  - component: {fileID: 3822877902212329867}
+  - component: {fileID: 3223891728238635772}
+  - component: {fileID: 7758532135651550664}
   m_Layer: 0
   m_Name: Pine tree 001
   m_TagString: Tree
@@ -120,7 +124,7 @@ Transform:
   - {fileID: 5092557214083008622}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &7583407985022968929
+--- !u!136 &3223891728238635772
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,7 +147,7 @@ CapsuleCollider:
   m_Height: 10
   m_Direction: 1
   m_Center: {x: 0, y: 3, z: 0}
---- !u!114 &3822877902212329867
+--- !u!114 &7758532135651550664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,6 +158,4 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0569dcac2b8dafb4f8cef7034e5575b7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  treeDurability: 0
-  treeRespawn: 0
+  m_EditorClassIdentifier: Assembly-CSharp::SmallPineScript
