@@ -38,3 +38,17 @@ Level System - 1.1x exponetional growth between levels
 			-200xp
 -XP tracking script
 -UI script
+
+
+
+
+~~~~~~~~~~~~~New Ideas~~~~~~~~~~~~~~~
+
+-Empty world
+
+-players claim stake
+
+-morphings world zones
+
+-player running will evolve grass into paths to make roads later
+
